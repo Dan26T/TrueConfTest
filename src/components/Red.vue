@@ -1,6 +1,6 @@
 <template>
   <div class="red">
-    <h1>Red}</h1>
+    <h1>Red</h1>
     <div class="r"></div>
     <div class="y"></div>
     <div class="g"></div>
