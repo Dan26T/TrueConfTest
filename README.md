@@ -1,4 +1,4 @@
-# vue-true-conf
+# true-conf Test
 
 ## Project setup
 ```
