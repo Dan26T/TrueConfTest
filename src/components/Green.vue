@@ -1,123 +1,144 @@
 <template>
-  <div class="green">
-    <h1>Green</h1>
-    <div class="r"></div>
-    <div class="y"></div>
-    <div class="g"></div>
-    <div class="ddd">{{this.time}}</div>
-  </div>
+    <div class="green">
+        <h1>Green</h1>
+        <div class="tl"><div class="r"></div>
+            <hr/>
+            <div class="y"></div>
+            <hr/>
+            <div :class="!this.toggle ? 'g' : 'g active'"></div>
+            <hr/>
+            <div class="ddd">{{this.time}}</div>
+        </div>
+    </div>
 </template>
 
 <script>
-export default {
-  name: 'Green',
-  props: {
+    export default {
+        name: 'Green',
+        props: {},
+        data() {
+            return {
+                time: null,
+                toggle: false
+            }
 
-  },
-  data() {
-    return {
-      time: null,
-      toggle: true
-    }
+        },
 
-  },
-
-  mounted(){
-    this.checkLocalStorage()
-    this.timeCountG()
-    this.timeOutG(this.timeoutG)
-  },
-  computed:{
-    timeoutG(){
-      return this.time*1000
-    }
-  },
-  methods:{
-    checkLocalStorage(){
-      if (localStorage.timeG>0){
-        this.time = Number(localStorage.timeG)
-      } else{
-        this.time = 15
-        localStorage.timeG = this.time.toString()
-      }
-    },
-      timeOutG(time) {
-        setTimeout(() => {
-          this.$router.push('/yellow')
-          localStorage.timeG = '15'
-          localStorage.direction = 'up'
-        }, time)
-      },
-      timeCountG() {
-        let start = setInterval(()=>{
-          this.time = this.time-1
-          this.saveTimerG()
-          if (this.time == 0){
-            clearInterval(start)
+        mounted() {
+            this.checkLocalStorage()
+            this.timeCountG()
+            this.timeOutG(this.timeoutG)
+            this.less3Sek()
+        },
+        computed: {
+            timeoutG() {
+                return this.time * 1000
+            }
+        },
+        methods: {
+            checkLocalStorage() {
+                if (localStorage.timeG > 0) {
+                    this.time = Number(localStorage.timeG)
+                } else {
+                    this.time = 15
+                    localStorage.timeG = this.time.toString()
+                }
+            },
+            timeOutG(time) {
+                setTimeout(() => {
+                    this.$router.push('/yellow')
+                    localStorage.timeG = '15'
+                    localStorage.direction = 'up'
+                }, time)
+            },
+            timeCountG() {
+                let start = setInterval(() => {
+                    this.time = this.time - 1
+                    this.saveTimerG()
+                    if (this.time == 0) {
+                        clearInterval(start)
+                    }
+                }, 1000)
+            },
+            saveTimerG() {
+                if (localStorage.mode == 'yes') {
+                    localStorage.timeG = this.time.toString()
+                    localStorage.timeY = '3'
+                    localStorage.timeR = '10'
+                } else {
+                    localStorage.timeG = this.time.toString()
+                }
+            },
+          less3Sek() {
+              let less = setInterval(() => {
+                if (this.time<4 ) {
+                  this.toggle = !this.toggle
+                }
+                if (this.time === 0) {
+                  clearInterval(less)
+                }
+              }, 500)
           }
-        }, 1000)
-      },
-    saveTimerG(){
-      if (localStorage.mode == 'yes'){
-        localStorage.timeG = this.time.toString()
-        localStorage.timeY = '3'
-        localStorage.timeR = '10'
-      } else {
-        localStorage.timeG = this.time.toString()
-      }
+        }
     }
-  }
-}
 </script>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .green{
-    margin: 0 auto;
-  }
-.r{
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  border-radius: 50%;
-  opacity: 0.3;
-  margin: 2px auto;
-}
-.y{
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  background-color: yellow;
-  border-radius: 50%;
-  opacity: 0.3;
-  margin: 2px auto;
-}
-.g{
-  opacity: 1;
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  background-color: green;
-  border-radius: 50%;
-  margin: 2px auto;
-}
-.active{
-  opacity: 0.3;
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  background-color: green;
-  border-radius: 50%;
-  margin: 2px auto;
-}
-  .ddd{
+    .green {
+        margin: 0 auto;
 
-    font-size: 50px;
-    font-weight: bold;
-    margin: 2px auto;
-    margin-top: 10px;
-  }
+    }
+    .tl{
+        margin: 0 auto;
+        background: silver;
+        height: 420px;
+        padding: 10px 0px 10px 0px;
+        width: 120px;
+    }
+
+    .r {
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+        opacity: 0.3;
+        margin: 5px auto;
+        z-index: 1;
+    }
+
+    .y {
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        border-radius: 50%;
+        opacity: 0.3;
+        margin: 5px auto;
+    }
+
+    .g {
+        opacity: 1;
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        border-radius: 50%;
+        margin: 5px auto;
+    }
+
+    .active {
+        opacity: 0.3;
+    }
+
+    .ddd {
+
+        font-size: 50px;
+        font-weight: bold;
+        margin: 2px auto;
+        margin-top: 10px;
+    }
 
 </style>

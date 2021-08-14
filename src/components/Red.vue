@@ -1,10 +1,15 @@
 <template>
   <div class="red">
     <h1>Red</h1>
-    <div class="r"></div>
-    <div class="y"></div>
-    <div class="g"></div>
-    <div class="ddd">{{this.time}}</div>
+    <div class="tl">
+      <div :class="!this.toggle ? 'r' : 'r active'"></div>
+      <hr/>
+      <div class="y"></div>
+      <hr/>
+      <div class="g"></div>
+      <hr/>
+      <div class="ddd">{{this.time}}</div>
+    </div>
   </div>
 </template>
 
@@ -16,7 +21,8 @@ export default {
   },
   data() {
     return {
-      time: null
+      time: null,
+      toggle: false
     }
 
   },
@@ -24,6 +30,7 @@ export default {
     this.checkLocalStorage()
     this.checkDirection()
     this.timeCountR()
+    this.less3Sek()
     this.timeOutR(this.timeoutR)
   },
   computed:{
@@ -71,6 +78,16 @@ export default {
       } else {
         localStorage.timeR = this.time.toString()
       }
+    },
+    less3Sek() {
+      let less = setInterval(() => {
+        if (this.time<4 ) {
+          this.toggle = !this.toggle
+        }
+        if (this.time == 0) {
+          clearInterval(less)
+        }
+      }, 500)
     }
   }
 }
@@ -80,13 +97,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .tl{
+    margin: 0 auto;
+    background: silver;
+    height: 420px;
+    padding: 10px 0px 10px 0px;
+    width: 120px;
+  }
   .r{
     text-align: center;
     width: 100px;
     height: 100px;
     background-color: red;
     border-radius: 50%;
-    margin: 2px auto;
+    margin: 5px auto;
+  }
+  .active {
+    opacity: 0.3;
   }
   .y{
     text-align: center;
@@ -95,7 +122,7 @@ export default {
     background-color: yellow;
     border-radius: 50%;
     opacity: 0.3;
-    margin: 2px auto;
+    margin: 5px auto;
   }
   .g{
     text-align: center;
@@ -104,7 +131,7 @@ export default {
     background-color: green;
     border-radius: 50%;
     opacity: 0.3;
-    margin: 2px auto;
+    margin: 5px auto;
   }
   .ddd{
     font-size: 50px;

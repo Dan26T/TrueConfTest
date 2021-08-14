@@ -7,13 +7,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Red',
-    component: RedL
+    name: 'StartPage',
+    component: () => import('../views/Red.vue')
   },
   {
     path: '/red',
     name: 'Red',
-    component: RedL
+    component: () => import('../views/Red.vue')
   },
   {
     path: '/yellow',

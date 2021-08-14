@@ -1,10 +1,15 @@
 <template>
     <div class="yellow">
         <h1>Yellow</h1>
-        <div class="r"></div>
-        <div class="y"></div>
-        <div class="g"></div>
-        <div class="ddd">{{this.time}}</div>
+        <div class="tl">
+            <div class="r"></div>
+            <hr/>
+            <div :class="!this.toggle ? 'y' : 'y active'"></div>
+            <hr/>
+            <div class="g"></div>
+            <hr/>
+            <div class="ddd">{{this.time}}</div>
+        </div>
     </div>
 </template>
 
@@ -14,7 +19,8 @@
         props: {},
         data() {
             return {
-                time: null
+                time: null,
+                toggle: false
             }
 
         },
@@ -22,6 +28,7 @@
         mounted() {
             this.checkLocalStorage()
             this.timeCountY()
+            this.less3Sek()
             this.timeOutR(this.timeoutY)
         },
         computed: {
@@ -55,9 +62,8 @@
                 let start = setInterval(() => {
                     this.time = this.time - 1
                     this.saveTimerY()
-                    if (this.time < 0) {
+                    if (this.time == 0) {
                         clearInterval(start)
-                        this.time = 3
                         localStorage.timeY = this.time.toString()
                     }
                 }, 1000)
@@ -70,6 +76,16 @@
                 } else {
                     localStorage.timeY = this.time.toString()
                 }
+            },
+            less3Sek() {
+                let less = setInterval(() => {
+                    if (this.time<4 ) {
+                        this.toggle = !this.toggle
+                    }
+                    if (this.time == 0) {
+                        clearInterval(less)
+                    }
+                }, 500)
             }
         }
     }
@@ -77,6 +93,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .tl{
+        margin: 0 auto;
+        background: silver;
+        height: 420px;
+        padding: 10px 0px 10px 0px;
+        width: 120px;
+    }
     .r {
         text-align: center;
         width: 100px;
@@ -84,7 +107,7 @@
         background-color: red;
         border-radius: 50%;
         opacity: 0.3;
-        margin: 2px auto;
+        margin: 5px auto;
     }
 
     .y {
@@ -93,7 +116,10 @@
         height: 100px;
         background-color: yellow;
         border-radius: 50%;
-        margin: 2px auto;
+        margin: 5px auto;
+    }
+    .active {
+        opacity: 0.3;
     }
 
     .g {
@@ -103,7 +129,7 @@
         background-color: green;
         border-radius: 50%;
         opacity: 0.3;
-        margin: 2px auto;
+        margin: 5px auto;
     }
 
     .ddd {
