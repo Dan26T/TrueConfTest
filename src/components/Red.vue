@@ -21,25 +21,57 @@ export default {
 
   },
   mounted(){
-    if (localStorage.timeR && localStorage.timeR>0){
-      this.time = Number(localStorage.timeR)
-    } else{
-      this.time = 10
-      localStorage.timeR = this.time.toString()
-    }
-    setTimeout(() => {
-      this.$router.push('/yellow')
-    }, this.timeout3)
-    setInterval(()=>{
-      this.time = this.time-1
-      localStorage.timeR = this.time.toString()
-      localStorage.timeY = '3'
-      localStorage.timeG = '15'
-    }, 1000)
+    this.checkLocalStorage()
+    this.checkDirection()
+    this.timeCountR()
+    this.timeOutR(this.timeoutR)
   },
   computed:{
-    timeout3(){
-      return Number(localStorage.timeR)*1000}
+    timeoutR(){
+      return this.time*1000
+    }
+  },
+  methods:{
+    checkLocalStorage(){
+      if (localStorage.timeR){
+        this.time = Number(localStorage.timeR)
+      } else{
+        this.time = 10
+        localStorage.timeR = this.time.toString()
+      }
+    },
+    checkDirection(){
+      if (!localStorage.direction){
+        localStorage.direction = 'down'
+      }
+    },
+    timeOutR(time) {
+      setTimeout(() => {
+        this.$router.push('/yellow')
+        localStorage.timeR = '10'
+        localStorage.direction = 'down'
+      }, time)
+    },
+    timeCountR() {
+      let start = setInterval(()=>{
+        this.time = this.time-1
+        this.saveTimerR()
+        if (this.time<0){
+          clearInterval(start)
+          this.time = 10
+          localStorage.timeR = this.time.toString()
+        }
+      }, 1000)
+    },
+    saveTimerR(){
+      if (localStorage.mode == 'yes'){
+        localStorage.timeR = this.time.toString()
+        localStorage.timeG = '15'
+        localStorage.timeY = '3'
+      } else {
+        localStorage.timeR = this.time.toString()
+      }
+    }
   }
 }
 

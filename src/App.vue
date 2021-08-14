@@ -6,6 +6,22 @@
 </template>
 
 <script>
+  export default {
+    name: 'App',
+    mounted() {
+      this.checkReturnTimerMode()
+    },
+    data() {
+      return {
+        mode: 'yes' //reset the current timer when switching to another page
+      }
+    },
+    methods: {
+      checkReturnTimerMode() {
+        localStorage.mode=this.mode
+      }
+    }
+  }
 </script>
 
 <style>
