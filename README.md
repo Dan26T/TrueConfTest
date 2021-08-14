@@ -1,5 +1,9 @@
-# true-conf Test
+# TrueConf Test
 
+## Uploading a project to a local machine
+```
+git clone  https://github.com/Dan26T/TrueConfTest.git
+```
 ## Project setup
 ```
 npm install
@@ -15,5 +19,3 @@ npm run start
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
