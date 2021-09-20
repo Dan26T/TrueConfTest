@@ -1,4 +1,4 @@
-# TrueConf Test
+# TrueConf Test traffic light
 
 ## Uploading a project to a local machine
 ```
